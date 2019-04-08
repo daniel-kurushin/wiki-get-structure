@@ -5,21 +5,27 @@ from pymystem3 import Mystem
 ma = Mystem()
 
 def get_keywords(text = ""):
-	return [ _.normalized for _ in TermExtractor()(text) if _.count > 4 ]
+    terms = TermExtractor()(text)
+    max_count = terms[0].count
+    for term in terms:
+        if term.count >= max_count / 10:
+            
+            yield term.normalized 
 
-def filter_keywords(keywords = ["россия", "бердяев", "информатика"], filter = set (["гео", "фам"])):
-    rez = []
-    for keyword in keywords:
-        params = []
-        for a in ma.analyze(keyword):
-            try:
-                params += a['analysis'][0]['gr'].split(',')
-            except (KeyError, IndexError):
-                pass
-            if not filter & set(params):
-                rez += [keyword]
-    return rez
+
+def filter_keywords(keywords = ["россия", "бердяев", "информатика"], filter = set (["гео", "фам", "англ", "википедия", "такая страница", "такая статья"])):
+	rez = []
+	for keyword in keywords:
+		params = []
+		for a in ma.analyze(keyword):
+			try:
+				params += a['analysis'][0]['gr'].split(',')
+			except (KeyError, IndexError):
+				pass
+		if not filter & set(params):
+			rez += [keyword]
+	return rez
 
 if __name__ == '__main__':
-	# print(get_keywords("несогласованное использование табуляции несогласованное использование табуляции и пробелов в отступах несогласованное использование табуляции и пробелов в отступах"))
-    print(filter_keywords())
+	print(get_keywords("несогласованное использование табуляции несогласованное использование табуляции и пробелов в отступах несогласованное использование табуляции и пробелов в отступах"))
+#	print(filter_keywords())
