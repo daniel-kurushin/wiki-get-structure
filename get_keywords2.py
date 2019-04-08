@@ -14,7 +14,6 @@ def get_keywords(text = ""):
 
 
 def filter_keywords(keywords = ["россия", "бердяев", "информатика"], filter = set (["гео", "фам", "англ", "википедия", "такая страница", "такая статья"])):
-	rez = []
 	for keyword in keywords:
 		params = []
 		for a in ma.analyze(keyword):
@@ -22,9 +21,8 @@ def filter_keywords(keywords = ["россия", "бердяев", "информ�
 				params += a['analysis'][0]['gr'].split(',')
 			except (KeyError, IndexError):
 				pass
-		if not filter & set(params):
-			rez += [keyword]
-	return rez
+		if not filter & set(params + [keyword]):
+			yield keyword
 
 if __name__ == '__main__':
 	print(get_keywords("несогласованное использование табуляции несогласованное использование табуляции и пробелов в отступах несогласованное использование табуляции и пробелов в отступах"))
