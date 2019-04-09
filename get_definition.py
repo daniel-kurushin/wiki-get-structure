@@ -2,33 +2,12 @@ from get_wiki_definition import get_wiki_definition
 from hashlib import md5
 from json import dump, load
 
-try:
-    hashes = load(open('database/hashes.dat'))
-except FileNotFoundError:
-    dump({},open('database/hashes.dat','w'),ensure_ascii=1,indent=2)
-    hashes = {}
-    
-def __md5(_str):
-    m = md5()
-    try:
-        m.update(_str.encode())
-        return m.hexdigest()
-    except AttributeError as e:
-        import sys
-        print(_str, e, file = sys.stderr)
-
 def get_definition(definition = "Дерево"):
     try:
         rez = open("database/%s.dat" % definition).read()
     except FileNotFoundError:
         rez = get_wiki_definition(definition)
-        _md5 = __md5(rez)
-        if _md5 not in hashes.keys():
-            open("database/%s.dat" % definition, 'w').write(rez)
-            hashes.update({_md5:rez})
-            dump(hashes,open('database/hashes.dat','w'),ensure_ascii=0,indent=2)
-        else:
-            pass
+        open("database/%s.dat" % definition, 'w').write(rez)
     return rez
 
 if __name__ == '__main__':
