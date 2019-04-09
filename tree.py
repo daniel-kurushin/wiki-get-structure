@@ -11,22 +11,17 @@ class Tree(dict):
             b = self.__wrap(akey[1])
             super().update({(a,b):adict[akey]})
     
-    def __join(self, tokens = ['очень', 'длинная', 'строка', ',', 'с', 'пробелами', ',', 'и', 'знаками', 'препинания']):
-        rez = []
-        for i in range(len(tokens)):
-            token = tokens[i]
-            if token in PUNKT:
-                rez[-1] += token
-            else:
-                rez += [token]
-            return rez
-
     def __wrap(self, _str = "очень длинная строка,с пробелами, и знаками препинания"):
         _len = 0
         rez = ""
-        for token in self.__join(wpt.tokenize(_str)):
+        for token in wpt.tokenize(_str):
             _len += len(token)
-            rez += " " + token
+            try:
+                if token not in PUNKT: 
+                    rez += " "
+            except IndexError:
+                pass
+            rez += token
             if _len > 20:
                 rez += "\n"
                 _len = 0
@@ -35,8 +30,8 @@ class Tree(dict):
 
 if __name__ == '__main__':
     atree = Tree()
-    atree.update({('a','g'):'b'})
+    atree.update({('прикладная, лингвистика','научный стиль'): 1})
     print(atree)
-    atree.update({('a','g'):'очень длинная строка,с пробелами, и знаками препинания'})
+    atree.update({('прикладная лингвистика','научный стиль'): 2})
     print(atree)
     
