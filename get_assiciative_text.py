@@ -4,12 +4,11 @@ import sys
 from get_definition import get_definition
 from get_keywords2 import get_keywords, filter_keywords
 from stop_words import is_stop_word
+from tree import Tree
 
-tree = {}
+tree = Tree()
 
 def get_graph(word = "Дерево", n = 3):
-    global tree
-
     count = 0
     word = word.lower()
 
