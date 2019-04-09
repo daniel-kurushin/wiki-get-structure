@@ -14,3 +14,4 @@ def get_wiki_definition(word = "Дерево"):
     except AttributeError as e:
         import sys
         print(word, e, file = sys.stderr)
+        return ""
