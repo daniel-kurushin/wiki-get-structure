@@ -24,7 +24,7 @@ def filter_keywords(keywords = ["россия", "бердяев", "информ�
 				params += a['analysis'][0]['gr'].split(',')
 			except (KeyError, IndexError):
 				pass
-		if not filter & set(params + [keyword]):
+		if not filter & set(params + [keyword]) and not len(keyword) < 3:
 			yield keyword
 
 if __name__ == '__main__':
