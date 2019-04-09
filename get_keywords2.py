@@ -1,17 +1,20 @@
 #!/usr/bin/python3
 from rutermextract import TermExtractor
 from pymystem3 import Mystem
-
 ma = Mystem()
 
 def get_keywords(text = ""):
     terms = TermExtractor()(text)
-    max_count = terms[0].count
-    for term in terms:
-        if term.count >= max_count / 10:
-            
-            yield term.normalized 
-
+    try:
+        max_count = terms[0].count
+        for term in terms:
+            if term.count >= max_count / 10:
+                
+                yield term.normalized 
+    except IndexError:
+        import sys
+        print(text, file = sys.stderr)
+        
 
 def filter_keywords(keywords = ["россия", "бердяев", "информатика"], filter = set (["гео", "фам", "англ", "википедия", "такая страница", "такая статья"])):
 	for keyword in keywords:
