@@ -11,9 +11,9 @@ def get_keywords(text = ""):
             if term.count >= max_count / 10:
                 
                 yield term.normalized 
-    except IndexError:
+    except IndexError as e:
         import sys
-        print(text, file = sys.stderr)
+        print(text, e, file = sys.stderr)
         
 
 def filter_keywords(keywords = ["россия", "бердяев", "информатика"], filter = set (["гео", "фам", "англ", "википедия", "такая страница", "такая статья"])):
