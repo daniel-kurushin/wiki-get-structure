@@ -10,8 +10,12 @@ except FileNotFoundError:
     
 def __md5(_str):
     m = md5()
-    m.update(_str.encode())
-    return m.hexdigest()
+    try:
+        m.update(_str.encode())
+        return m.hexdigest()
+    except AttributeError as e:
+        import sys
+        print(_str, e, file = sys.stderr)
 
 def get_definition(definition = "Дерево"):
     try:
