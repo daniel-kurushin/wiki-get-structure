@@ -16,14 +16,7 @@ def get_graph(word = "Дерево", n = 3):
     if n > 0:
         definition = get_definition(word)
         open('/tmp/rez.txt','a').write("=\n%s\n=\n" % definition)
-
-        keywords = get_keywords(definition)
-        
-        keywords = filter_keywords(keywords)
-        
-#        keywords = unwiki(keywords)
-
-        for word_i in keywords:
+        for word_i in unwiki(filter_keywords(get_keywords(definition))):
             if word_i != word and not is_stop_word(word_i):
                 count += 1
                 if get_graph(word_i, n - 1):
