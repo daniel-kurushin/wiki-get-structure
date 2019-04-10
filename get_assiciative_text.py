@@ -25,7 +25,7 @@ def get_graph(word = "Дерево", n = 3):
 
 
 if __name__ == '__main__':
-    get_graph("Прикладная лингвистика", 2)
+    get_graph("Прикладная лингвистика", 3)
     print("digraph g {\n\trankdir=LR;")
     for definition, word in tree.keys():
         print("\t\"%s\" -> \"%s\"" % (definition, word))
