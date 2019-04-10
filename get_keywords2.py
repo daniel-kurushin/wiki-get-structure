@@ -43,6 +43,7 @@ FILTR = set(['Abbr',
  'гео',
  'такая статья',
  'такая страница',
+ 'такие название', 'быстрое старт', 'статья', 'руководство',
  'фам'])
 
 def get_keywords(text = ""):
@@ -54,9 +55,10 @@ def get_keywords(text = ""):
                 
                 yield term.normalized 
     except IndexError as e:
-        import sys
-        print(text, e, file = sys.stderr)
-        
+#        import sys
+#        print(text, e, file = sys.stderr)
+        pass
+    
 def filter_keywords(keywords = ["россия", "бердяев", "информатика"], filter = FILTR):
     for keyword in keywords:
         params = []
@@ -73,8 +75,9 @@ def filter_keywords(keywords = ["россия", "бердяев", "информ�
         if not filter & set(params + [keyword]) and not len(keyword) < 3:
             yield keyword
         else:
-            import sys
-            print(keyword, params, file = sys.stderr)
+#            import sys
+#            print(keyword, params, file = sys.stderr)
+            pass
 
 if __name__ == '__main__':
 	print(list(filter_keywords(get_keywords(test))))
