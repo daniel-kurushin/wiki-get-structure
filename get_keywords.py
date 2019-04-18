@@ -25,7 +25,7 @@ test = """
 
 from rutermextract import TermExtractor
 from pymorphy2 import MorphAnalyzer
-from movingavg import Moving
+from detect_formula import is_formula
 
 mo = MorphAnalyzer()
 te = TermExtractor()
@@ -56,18 +56,11 @@ def filter_keywords(keywords = ["россия", "бердяев", "информ�
     for keyword in keywords:
         params = []
         
-        ma = Moving()
         for a in mo.parse(keyword):
-            kwl = len(keyword)
-            if a.tag.grammemes != {'LATN'} and kwl > AVGLEN / 3:
-                params += list(a.tag.grammemes)
-            ma.update(kwl)
+            params += list(a.tag.grammemes)
         
-        print(keyword, AVGLEN)
-        AVGLEN = float(ma)
-        
-        if not filter & set(params + [keyword]) and not len(keyword) < 3:
-            yield keyword.replace('/', '_')
+        if not filter & set(params + [keyword]) and not is_formula(a):
+            yield keyword
         else:
 #            import sys
 #            print(keyword, params, file = sys.stderr)
