@@ -6,13 +6,10 @@ Created on Tue Apr  9 14:05:25 2019
 @author: dan
 """
 
-import re 
-c = 'лингви́стика'[6]
-
 def unwiki(keywords):
     for word in keywords:
-        yield re.sub(c, '', word)
+        yield word.replace(' ́', '').replace(' ','')
         
 if __name__ == '__main__':
-    print(list(unwiki(['лингви́стика', 'языкозна́ние', 'языкове́дение'])))
+    print(list(unwiki(["лингви ́ стика"])))
     

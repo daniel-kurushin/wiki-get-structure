@@ -39,13 +39,13 @@ class Moving():
         return str(self.__avg)
 
 if __name__ == '__main__':
-    m = Moving()
     from random import randint
     import matplotlib.pyplot as plt
 
     X = []
     Y1 = []
     Y2 = []
+    m = Moving()
     for i in range(100):
         x = randint(1, 10)
         m.update(x)
@@ -59,6 +59,7 @@ if __name__ == '__main__':
     X = []
     Y1 = []
     Y2 = []
+    m = Moving(100)
     for i in range(len(innn)):
         x = innn[i]
         m.update(x)
