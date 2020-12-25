@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 HOST = 'https://intuit.ru'
 URL = '%s/studies/courses/3647/889/info' % HOST
+URL = '%s/studies/courses/3574/816/info' % HOST
 
 
 def get_lectures_urls(url):
@@ -19,6 +20,7 @@ for lecture_url in get_lectures_urls(URL):
     for page in range(1, 10):
         try:
             a_url = "%s?page=%s" % (lecture_url, page)
+            print(a_url)
             lecture_soup = BeautifulSoup(get(a_url).content, "lxml")
             a_html = lecture_soup.find('div', {'id':"center-panel"})
             assert 'неправильно указали адрес страницы' not in a_html.text

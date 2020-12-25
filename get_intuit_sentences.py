@@ -1,3 +1,7 @@
+import re
+import numpy as np
+import matplotlib.pyplot as plt
+
 from bs4 import BeautifulSoup
 from utilites import dump, load
 from nltk.tokenize import PunktSentenceTokenizer 
@@ -45,17 +49,28 @@ def is_word(word):
 
 sentences = {}
 n = 0
-for sentence in pst.tokenize(text):
-    tokens = list(set([ get_normal_form(t) for t in wpt.tokenize(sentence) if is_word(t) ]))
+for sentence in [ re.sub(r"\n+|\s+", " ", x) for x in pst.tokenize(text) ]:
+    sent_tokens = list(set([ get_normal_form(t) for t in wpt.tokenize(sentence) ]))
+    tokens = [ t for t in sent_tokens if is_word(t) ]
+    Q = len(tokens) / len(sent_tokens)
     x = {
             n:{
                 "tokens": tokens,
-                "sentence": sentence
+                "sentence": sentence,
+                "Q": Q,
+                "len": len(tokens),
             }
     }
     sentences.update(x)
     n += 1
-    
+Q = np.array([ sentences[s]['Q'] for s in sentences ])
+L = np.array([ sentences[s]['len'] for s in sentences ])
+
+q_min, q_max = Q.mean() - Q.std(), Q.mean() + Q.std()
+l_min, l_max = L.mean() - L.std(), L.mean() + L.std()
+
+sentences = { i: sentences[i] for i in sentences if q_min <= sentences[i]['Q'] <= q_max and l_min <= sentences[i]['len'] <= l_max }
+
 dump(sentences, 'intuit_sents.json')
 dump(word_normal_form, 'word_normal_form.json')
 dump(list(stop_words), 'stop_words.json')
